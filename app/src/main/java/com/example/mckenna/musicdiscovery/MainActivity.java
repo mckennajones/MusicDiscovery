@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MediaPlayer player = new MediaPlayer();
     }
 
     final static int ADD_ITEM_INTENT = 1; // use to signify result of adding item

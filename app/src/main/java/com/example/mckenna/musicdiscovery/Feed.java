@@ -41,12 +41,13 @@ public class Feed extends ListFragment{
             Song song = songs.get(i);
             HashMap<String, String> hm = new HashMap<String, String>();
             hm.put("title", song.getTitle());
-            hm.put("subtitle", song.getArtist());
+            hm.put("artist", song.getArtist());
+            hm.put("album", song.getAlbum());
             hm.put("logo", Integer.toString(logos[i % logos.length]));
             rows.add(hm);
         }
-        String[] from = {"logo", "title", "subtitle"};
-        int[] to = {R.id.logo, R.id.title, R.id.subtitle};
+        String[] from = {"logo", "title", "artist", "album"};
+        int[] to = {R.id.logo, R.id.title, R.id.artist, R.id.album};
 
         SimpleAdapter adapter = new SimpleAdapter(getActivity().getBaseContext(), rows, R.layout.listview_layout, from, to);
         setListAdapter(adapter);
