@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MusicDiscovery</string>
+    <string name="title_activity_current_music_track_info">CurrentMusicTrackInfoActivity</string>
 </resources>

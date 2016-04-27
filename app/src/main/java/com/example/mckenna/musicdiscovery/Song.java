@@ -34,7 +34,6 @@ public class Song {
         return album;
     }
 
-    public void setAlbum(){
-        this.album = album;
-    }
+    public void setAlbum() { this.album = album; }
+
 }
