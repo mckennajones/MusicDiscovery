@@ -14,8 +14,13 @@ public class Song {
         this.album = album;
     }
 
+    public Song(String title, String artist){
+        this.title = title;
+        this.artist = artist;
+    }
+
     public String getTitle(){
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title){
@@ -23,17 +28,17 @@ public class Song {
     }
 
     public String getArtist(){
-        return artist;
+        return this.artist;
     }
 
-    public void setArtist(){
+    public void setArtist(String artist){
         this.artist = artist;
     }
 
     public String getAlbum(){
-        return album;
+        return this.album;
     }
 
-    public void setAlbum() { this.album = album; }
+    public void setAlbum(String album) { this.album = album; }
 
 }
