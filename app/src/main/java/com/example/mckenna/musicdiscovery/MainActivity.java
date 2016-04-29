@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
 
+/**
+ * Main Activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

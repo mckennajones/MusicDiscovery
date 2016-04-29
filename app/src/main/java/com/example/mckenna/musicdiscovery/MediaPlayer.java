@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
+import android.content.Context;
 /**
- * Created by mckenna on 4/25/16.
+ * Class to retrieve music metadata
  */
 public class MediaPlayer extends Activity {
 
@@ -47,15 +49,19 @@ public class MediaPlayer extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            DatabaseHandler db = new DatabaseHandler(getApplicationContext());
             String action = intent.getAction();
             String cmd = intent.getStringExtra("command");
             Log.v("tag ", action + " / " + cmd);
+            Log.d("Insert: ", "Inserting ..");
             String artist = intent.getStringExtra("artist");
             String album = intent.getStringExtra("album");
             String track = intent.getStringExtra("track");
+            Song song = new Song(track, artist, album);
+            db.addSong(song);
             Log.v("tag", artist + ":" + album + ":" + track);
-            Toast.makeText(MediaPlayer.this, track, Toast.LENGTH_SHORT).show();
-            Toast.makeText(MediaPlayer.this, artist, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MediaPlayer.this, track, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MediaPlayer.this, artist, Toast.LENGTH_SHORT).show();
 
         }
     };

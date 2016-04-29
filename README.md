@@ -1,2 +1,2 @@
 # MusicDiscovery
-An Android app that allows users to discover what nearby people are listening to
+An android app that informs users on their music listening habits

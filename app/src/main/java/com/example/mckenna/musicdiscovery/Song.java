@@ -1,12 +1,24 @@
 package com.example.mckenna.musicdiscovery;
 
 /**
- * Created by mckenna on 4/24/16.
+ * Class implementation for Songs
  */
 public class Song {
+    private int id;
     private String title;
     private String artist;
     private String album;
+
+    public Song(){
+
+    }
+
+    public Song(int id, String title, String artist, String album){
+        this.id = id;
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+    }
 
     public Song(String title, String artist, String album){
         this.title = title;
@@ -14,9 +26,12 @@ public class Song {
         this.album = album;
     }
 
-    public Song(String title, String artist){
-        this.title = title;
-        this.artist = artist;
+    public int getId(){
+        return this.id;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     public String getTitle(){
@@ -39,6 +54,8 @@ public class Song {
         return this.album;
     }
 
-    public void setAlbum(String album) { this.album = album; }
+    public void setAlbum(String album){
+        this.album = album;
+    }
 
 }

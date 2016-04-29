@@ -1,13 +1,16 @@
 package com.example.mckenna.musicdiscovery;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mckenna on 4/28/16.
+ * SQLite database to keep track of songs
  */
 public class DatabaseHandler extends SQLiteOpenHelper {
     // Version
@@ -47,16 +50,71 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // CRUD
-    public void addSong(Song song){}
+    public void addSong(Song song){
+        SQLiteDatabase db = this.getReadableDatabase();
 
-    public Song getSong(int id){}
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, song.getTitle());
+        values.put(KEY_ARTIST, song.getArtist());
+        values.put(KEY_ALBUM, song.getAlbum());
 
-    public List<Song> getSongs(){}
+        db.insert(TABLE_SONGS, null, values);
+        db.close();
+    }
 
-    public int getSongCount(){}
+    public Song getSong(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
 
-    // probably don't need this one?
+        // consider moving string out of query here for readability
+        Cursor cursor = db.query(TABLE_SONGS, new String[] {KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM}, KEY_SONGID + "=?", new String[] { String.valueOf(id)}, null, null, null, null);
+
+        Song song = new Song(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
+
+        cursor.close();
+        return song;
+    }
+
+    public List<Song> getSongs(){
+        List<Song> songList = new ArrayList<Song>();
+
+        String selectAll = "SELECT * FROM " + TABLE_SONGS;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectAll, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                Song song = new Song();
+                song.setId(Integer.parseInt(cursor.getString(0)));
+                song.setTitle(cursor.getString(1));
+                song.setArtist(cursor.getString(2));
+                song.setAlbum(cursor.getString(3));
+
+                songList.add(song);
+            }while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        return songList;
+    }
+
+    public int getSongCount(){
+        String getCount = "SELECT * FROM " + TABLE_SONGS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(getCount, null);
+        cursor.close();
+
+        return cursor.getCount();
+    }
+
+    /*
+    probably don't need this one?
     public int updateSong(Song song){}
+    */
 
-    public void deleteSong(Song song){}
+    public void deleteSong(Song song){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SONGS, KEY_SONGID + " = ?", new String[] { String.valueOf(song.getId())});
+        db.close();
+    }
 }
