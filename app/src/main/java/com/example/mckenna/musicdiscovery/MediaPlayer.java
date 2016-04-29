@@ -10,6 +10,9 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 import android.content.Context;
+
+import java.util.List;
+
 /**
  * Class to retrieve music metadata
  */
@@ -62,6 +65,12 @@ public class MediaPlayer extends Activity {
             Log.v("tag", artist + ":" + album + ":" + track);
             //Toast.makeText(MediaPlayer.this, track, Toast.LENGTH_SHORT).show();
             //Toast.makeText(MediaPlayer.this, artist, Toast.LENGTH_SHORT).show();
+//            List<Song> songs = db.getSongs();
+//            for (Song sn : songs) {
+//                String log = "Id: " + song.getId() + " ,Name: " + song.getTitle() + " ,Phone: " + song.getArtist();
+//                // Writing Contacts to log
+//                Log.d("Name: ", log);
+//            }
 
         }
     };
