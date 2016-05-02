@@ -4,7 +4,7 @@ package com.example.mckenna.musicdiscovery;
  * Class implementation for Songs
  */
 public class Song {
-    private int id;
+    private int _id;
     private String title;
     private String artist;
     private String album;
@@ -14,7 +14,7 @@ public class Song {
     }
 
     public Song(int id, String title, String artist, String album){
-        this.id = id;
+        this._id = id;
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -27,11 +27,11 @@ public class Song {
     }
 
     public int getId(){
-        return this.id;
+        return this._id;
     }
 
     public void setId(int id){
-        this.id = id;
+        this._id = id;
     }
 
     public String getTitle(){

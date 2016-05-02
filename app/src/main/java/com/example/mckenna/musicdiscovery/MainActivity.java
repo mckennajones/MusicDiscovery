@@ -1,26 +1,33 @@
 package com.example.mckenna.musicdiscovery;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Main Activity
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,26 @@ public class MainActivity extends AppCompatActivity {
         iF.addAction("com.andrew.apollo.metachanged");
 
         registerReceiver(mReceiver, iF);
+
+        displayListView();
+    }
+
+    private void displayListView(){
+        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
+
+        Cursor cursor = db.getAllRows();
+
+        //startManagingCursor(cursor);
+
+        String[] fromFieldNames = new String[]
+                {db.KEY_TITLE, db.KEY_ARTIST, db.KEY_ALBUM};
+        int[] toViewIDs = new int[]
+                {R.id.title,     R.id.artist,           R.id.album};
+
+        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.song_layout, cursor, fromFieldNames, toViewIDs);
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(cursorAdapter);
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -67,40 +94,19 @@ public class MainActivity extends AppCompatActivity {
             Log.v("tag", artist + ":" + album + ":" + track);
             //Toast.makeText(MainActivity.this, track, Toast.LENGTH_SHORT).show();
             //Toast.makeText(MainActivity.this, artist, Toast.LENGTH_SHORT).show();
-//            List<Song> songs = db.getSongs();
-//            for (Song sn : songs) {
-//                String log = "Id: " + song.getId() + " ,Name: " + song.getTitle() + " ,Phone: " + song.getArtist();
-//                // Writing Contacts to log
-//                Log.d("Name: ", log);
-//            }
-
+            List<Song> songs = db.getSongs();
+            for (Song sn : songs) {
+                String log = "Id: " + sn.getId() + " ,Name: " + sn.getTitle() + " ,Phone: " + sn.getArtist();
+                // Writing Contacts to log
+                Log.d("Name: ", log);
+            }
+            displayListView();
         }
     };
 
     public void musicIntent(View v)
     {
-        Intent musicPlayer = new Intent(MainActivity.this, MediaPlayer.class);
+        Intent musicPlayer = new Intent(MainActivity.this, MainActivity.class);
         MainActivity.this.startActivity(musicPlayer);
     }
-
-    //final static int ADD_ITEM_INTENT = 1; // use to signify result of adding item
-
-    /*protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case ADD_ITEM_INTENT:
-                    String title = returnIntent.getStringExtra("title");
-                    String artist = returnIntent.getStringExtra("artist");
-                    String album = returnIntent.getStringExtra("album");
-                    if (title != null && artist != null) {
-                        Toast.makeText(this, title + " (" + artist + ")", Toast.LENGTH_SHORT).show();
-                        Feed feedList = (Feed)
-                                getSupportFragmentManager().findFragmentById(R.id.feed_fragment);
-                        feedList.addSong(new Song(title, artist, album));
-                    }
-                    break;
-                // could handle other intent callbacks here, too
-            }
-        }
-    }*/
 }
