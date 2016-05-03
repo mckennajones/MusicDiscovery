@@ -67,9 +67,9 @@ public class MainActivity extends Activity {
         //startManagingCursor(cursor);
 
         String[] fromFieldNames = new String[]
-                {db.KEY_TITLE, db.KEY_ARTIST, db.KEY_ALBUM};
+                {db.KEY_TITLE, db.KEY_ARTIST, db.KEY_ALBUM, db.KEY_COUNT};
         int[] toViewIDs = new int[]
-                {R.id.title,     R.id.artist,           R.id.album};
+                {R.id.title,     R.id.artist,           R.id.album, R.id.count};
 
         SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.song_layout, cursor, fromFieldNames, toViewIDs);
 
@@ -90,7 +90,9 @@ public class MainActivity extends Activity {
             String album = intent.getStringExtra("album");
             String track = intent.getStringExtra("track");
             Song song = new Song(track, artist, album);
-            db.addSong(song);
+            if(artist != null && album != null && track != null) {
+                db.addSong(song);
+            }
             Log.v("tag", artist + ":" + album + ":" + track);
             //Toast.makeText(MainActivity.this, track, Toast.LENGTH_SHORT).show();
             //Toast.makeText(MainActivity.this, artist, Toast.LENGTH_SHORT).show();

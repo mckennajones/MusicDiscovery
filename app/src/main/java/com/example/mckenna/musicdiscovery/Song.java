@@ -8,6 +8,7 @@ public class Song {
     private String title;
     private String artist;
     private String album;
+    private int count;
 
     public Song(){
 
@@ -56,6 +57,14 @@ public class Song {
 
     public void setAlbum(String album){
         this.album = album;
+    }
+
+    public void setCount(int count){
+        this.count = count;
+    }
+
+    public int getCount(){
+        return this.count;
     }
 
 }

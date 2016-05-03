@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String KEY_TITLE = "title";
     public static final String KEY_ARTIST = "artist";
     public static final String KEY_ALBUM = "album";
-
-    private static final String[] ALL_KEYS = new String[]{KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM};
+    public static final String KEY_COUNT = "count";
+    private static final String[] ALL_KEYS = new String[]{KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM, KEY_COUNT};
     public DatabaseHandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -38,7 +39,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "("
                 + KEY_SONGID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_TITLE + " TEXT,"
-                + KEY_ARTIST + " TEXT," + KEY_ALBUM + " TEXT" + ")";
+                + KEY_ARTIST + " TEXT," + KEY_ALBUM + " TEXT," + KEY_COUNT + " INTEGER" + ")";
         db.execSQL(CREATE_SONGS_TABLE);
     }
 
@@ -54,12 +55,31 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addSong(Song song){
         SQLiteDatabase db = this.getReadableDatabase();
 
+        String query = "SELECT * FROM " + TABLE_SONGS + " WHERE " + KEY_TITLE + " = '" + song.getTitle() + "'";
+        Cursor cursor = db.rawQuery(query, null);
         ContentValues values = new ContentValues();
-        values.put(KEY_TITLE, song.getTitle());
-        values.put(KEY_ARTIST, song.getArtist());
-        values.put(KEY_ALBUM, song.getAlbum());
 
-        db.insert(TABLE_SONGS, null, values);
+        if(cursor.getCount() > 0) {
+            query = "SELECT " + KEY_COUNT + " FROM " + TABLE_SONGS + " WHERE " + KEY_TITLE + " = '" + song.getTitle() + "'";
+            cursor = db.rawQuery(query, null);
+            cursor.moveToFirst();
+            String count = cursor.getString(cursor.getColumnIndex(KEY_COUNT));
+            int cnt = Integer.parseInt(count);
+            values.put(KEY_TITLE, song.getTitle());
+            values.put(KEY_ARTIST, song.getArtist());
+            values.put(KEY_ALBUM, song.getAlbum());
+            values.put(KEY_COUNT, cnt + 1);
+
+            String whereClause = KEY_TITLE + " = '" + song.getTitle() + "'";
+            db.update(TABLE_SONGS, values, whereClause, null);
+        }
+        else {
+            values.put(KEY_TITLE, song.getTitle());
+            values.put(KEY_ARTIST, song.getArtist());
+            values.put(KEY_ALBUM, song.getAlbum());
+            values.put(KEY_COUNT, song.getCount());
+            db.insert(TABLE_SONGS, null, values);
+        }
         db.close();
     }
 
