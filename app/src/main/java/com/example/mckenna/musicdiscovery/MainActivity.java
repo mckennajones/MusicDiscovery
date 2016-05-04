@@ -8,6 +8,9 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     private FragmentDrawer drawerFrag;
     private Toolbar mToolbar;
+
+    private static String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         registerReceiver(mReceiver, iF);
 
+        displayView(0);
         //displayListView();
     }
 
@@ -95,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         return super.onOptionsItemSelected(item);
     }
-
 
     /*private void displayListView(){
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
@@ -140,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 // Writing Contacts to log
                 Log.d("Name: ", log);
             }
-            //displayListView();
+            HomeFragment tempFrag = (HomeFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_home));
+            tempFrag.displayListView();
         }
     };
 
@@ -152,6 +158,33 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     @Override
     public void onDrawerItemSelected(View view, int position) {
+        displayView(position);
+    }
 
+    private void displayView(int position) {
+        Fragment fragment = null;
+        String title = getString(R.string.app_name);
+        switch (position) {
+            case 0:
+                fragment = new HomeFragment();
+                title = getString(R.string.title_home);
+                break;
+            case 1:
+                fragment = new StatsFragment();
+                title = getString(R.string.title_statistics);
+                break;
+            default:
+                break;
+        }
+
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container_body, fragment, title);
+            fragmentTransaction.commit();
+
+            // set the toolbar title
+            getSupportActionBar().setTitle(title);
+        }
     }
 }
