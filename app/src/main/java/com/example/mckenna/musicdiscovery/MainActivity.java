@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
+import android.support.v4.widget.DrawerLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +29,27 @@ import java.util.List;
 /**
  * Main Activity
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
+
+    private FragmentDrawer drawerFrag;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+        drawerFrag = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+        drawerFrag.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
+        drawerFrag.setDrawerListener(this);
+        /* Music intent stuff */
         IntentFilter iF = new IntentFilter();
         iF.addAction("com.android.music.metachanged");
         iF.addAction("com.android.music.playstatechanged");
@@ -56,10 +72,32 @@ public class MainActivity extends Activity {
 
         registerReceiver(mReceiver, iF);
 
-        displayListView();
+        //displayListView();
     }
 
-    private void displayListView(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /*private void displayListView(){
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
         Cursor cursor = db.getAllRows();
@@ -75,7 +113,7 @@ public class MainActivity extends Activity {
 
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(cursorAdapter);
-    }
+    }*/
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -102,7 +140,7 @@ public class MainActivity extends Activity {
                 // Writing Contacts to log
                 Log.d("Name: ", log);
             }
-            displayListView();
+            //displayListView();
         }
     };
 
@@ -110,5 +148,10 @@ public class MainActivity extends Activity {
     {
         Intent musicPlayer = new Intent(MainActivity.this, MainActivity.class);
         MainActivity.this.startActivity(musicPlayer);
+    }
+
+    @Override
+    public void onDrawerItemSelected(View view, int position) {
+
     }
 }
