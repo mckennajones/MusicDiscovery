@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     private FragmentDrawer drawerFrag;
     private Toolbar mToolbar;
+    private EditText searchText;
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -52,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        searchText = (EditText)findViewById(R.id.search_box);
+
 
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
@@ -100,6 +105,17 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if(id == R.id.action_search){
+            //Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
+            if(searchText.getVisibility() == View.VISIBLE) {
+                searchText.setVisibility(View.GONE);
+            }
+            else{
+                searchText.setVisibility(View.VISIBLE);
+            }
             return true;
         }
 

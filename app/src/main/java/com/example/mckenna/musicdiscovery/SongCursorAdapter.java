@@ -31,13 +31,14 @@ public class SongCursorAdapter extends CursorAdapter {
         TextView tvTitle = (TextView)view.findViewById(R.id.title);
         TextView tvArtist = (TextView)view.findViewById(R.id.artist);
         TextView tvAlbum = (TextView)view.findViewById(R.id.album);
+        TextView tvCount = (TextView)view.findViewById(R.id.count);
 
         ImageView coverView = (ImageView)view.findViewById(R.id.cover);
 
         String artist = cursor.getString(cursor.getColumnIndexOrThrow("artist"));
         String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
         String album = cursor.getString(cursor.getColumnIndexOrThrow("album"));
-
+        String count = cursor.getString(cursor.getColumnIndexOrThrow("count"));
         String cover = cursor.getString(cursor.getColumnIndexOrThrow("cover"));
 
         Uri coverUri = Uri.parse(cover);
@@ -46,5 +47,6 @@ public class SongCursorAdapter extends CursorAdapter {
         tvTitle.setText(title);
         tvArtist.setText(artist);
         tvAlbum.setText(album);
+        tvCount.setText(count);
     }
 }

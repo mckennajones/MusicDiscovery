@@ -32,18 +32,21 @@
             android:layout_height="wrap_content"
             android:textSize="10dp"
             android:textColor="@color/textColorPrimary"/>
-        <TextView
-            android:id="@+id/count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textSize="20dp"
-            android:textColor="@color/textColorPrimary"></TextView>
 
     </LinearLayout>
+
     <ImageView
         android:id="@+id/cover"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_gravity="right"/>
+        />
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingTop="22dp"
+        android:textSize="20dp"
+        android:textColor="@color/textColorPrimary"></TextView>
 </LinearLayout>
