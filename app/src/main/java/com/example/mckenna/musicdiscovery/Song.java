@@ -8,6 +8,7 @@ public class Song {
     private String title;
     private String artist;
     private String album;
+    private String albumCover;
     private int count;
 
     public Song(){
@@ -21,10 +22,11 @@ public class Song {
         this.album = album;
     }
 
-    public Song(String title, String artist, String album){
+    public Song(String title, String artist, String album, String albumCover){
         this.title = title;
         this.artist = artist;
         this.album = album;
+        this.albumCover = albumCover;
     }
 
     public int getId(){
@@ -67,4 +69,10 @@ public class Song {
         return this.count;
     }
 
+    public void setAlbumCover(String albumCover) {
+        this.album = albumCover;
+    }
+    public String getAlbumCover() {
+        return this.albumCover;
+    }
 }

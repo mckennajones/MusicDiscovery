@@ -2,11 +2,13 @@ package com.example.mckenna.musicdiscovery;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
         drawerFrag = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFrag.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
@@ -132,10 +136,40 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             String artist = intent.getStringExtra("artist");
             String album = intent.getStringExtra("album");
             String track = intent.getStringExtra("track");
-            Song song = new Song(track, artist, album);
+            String albumString = null;
+
+            /* To get album art */
+            long songId = intent.getLongExtra("id", -1);
+            if(songId != 1) {
+                String selection = MediaStore.Audio.Media._ID + " = " + songId + " ";
+
+                Cursor cursor = getContentResolver().query(
+                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, new String[] {
+                                MediaStore.Audio.Media._ID, MediaStore.Audio.Media.ALBUM_ID},
+                        selection, null, null);
+
+                if (cursor.moveToFirst()) {
+                    long albumId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
+                    Log.d("Album ID : ", ""+albumId);
+
+                    Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+                    Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
+
+                    //set the album art in imageview
+                    //albumArt.setImageURI(albumArtUri);
+                    albumString = albumArtUri.toString();
+                }
+                cursor.close();
+            }
+            else{
+                albumString = null;
+            }
+
+            Song song = new Song(track, artist, album, albumString);
             if(artist != null && album != null && track != null) {
                 db.addSong(song);
             }
+
             Log.v("tag", artist + ":" + album + ":" + track);
             //Toast.makeText(MainActivity.this, track, Toast.LENGTH_SHORT).show();
             //Toast.makeText(MainActivity.this, artist, Toast.LENGTH_SHORT).show();

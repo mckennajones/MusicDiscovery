@@ -29,7 +29,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String KEY_ARTIST = "artist";
     public static final String KEY_ALBUM = "album";
     public static final String KEY_COUNT = "count";
-    private static final String[] ALL_KEYS = new String[]{KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM, KEY_COUNT};
+    public static final String KEY_COVER = "cover";
+    private static final String[] ALL_KEYS = new String[]{KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM, KEY_COUNT, KEY_COVER};
     public DatabaseHandler(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -39,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "("
                 + KEY_SONGID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_TITLE + " TEXT,"
-                + KEY_ARTIST + " TEXT," + KEY_ALBUM + " TEXT," + KEY_COUNT + " INTEGER" + ")";
+                + KEY_ARTIST + " TEXT," + KEY_ALBUM + " TEXT," + KEY_COUNT + " INTEGER," + KEY_COVER + " TEXT" + ")";
         db.execSQL(CREATE_SONGS_TABLE);
     }
 
@@ -69,6 +70,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(KEY_ARTIST, song.getArtist());
             values.put(KEY_ALBUM, song.getAlbum());
             values.put(KEY_COUNT, cnt + 1);
+            values.put(KEY_COVER, song.getAlbumCover());
 
             String whereClause = KEY_TITLE + " = '" + song.getTitle() + "'";
             db.update(TABLE_SONGS, values, whereClause, null);
@@ -77,7 +79,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             values.put(KEY_TITLE, song.getTitle());
             values.put(KEY_ARTIST, song.getArtist());
             values.put(KEY_ALBUM, song.getAlbum());
-            values.put(KEY_COUNT, song.getCount());
+            values.put(KEY_COUNT, 1);
+            values.put(KEY_COVER, song.getAlbumCover());
             db.insert(TABLE_SONGS, null, values);
         }
         db.close();
