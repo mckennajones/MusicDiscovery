@@ -55,13 +55,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // CRUD
     public void addSong(Song song){
         SQLiteDatabase db = this.getReadableDatabase();
-
-        String query = "SELECT * FROM " + TABLE_SONGS + " WHERE " + KEY_TITLE + " = '" + song.getTitle() + "'";
+        String query = "SELECT * FROM " + TABLE_SONGS + " WHERE " + KEY_TITLE + " = '" + checkTitle(song.getTitle()) + "'";
         Cursor cursor = db.rawQuery(query, null);
         ContentValues values = new ContentValues();
 
         if(cursor.getCount() > 0) {
-            query = "SELECT " + KEY_COUNT + " FROM " + TABLE_SONGS + " WHERE " + KEY_TITLE + " = '" + song.getTitle() + "'";
+            query = "SELECT " + KEY_COUNT + " FROM " + TABLE_SONGS + " WHERE " + KEY_TITLE + " = '" + checkTitle(song.getTitle()) + "'";
             cursor = db.rawQuery(query, null);
             cursor.moveToFirst();
             String count = cursor.getString(cursor.getColumnIndex(KEY_COUNT));
@@ -151,5 +150,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SONGS, KEY_SONGID + " = ?", new String[] { String.valueOf(song.getId())});
         db.close();
+    }
+
+    public String checkTitle(String title){
+        int i = 0;
+        String fixedTitle = title;
+        for(i=0;i<title.length();i++) {
+            if(title.charAt(i) == '\''){
+                fixedTitle = title.substring(0,i) + "\'" + title.substring(i,title.length()-1);
+            }
+        }
+        return fixedTitle;
+
     }
 }
