@@ -1,18 +1,22 @@
 package com.example.mckenna.musicdiscovery;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
     private EditText searchText;
 
     private static String TAG = MainActivity.class.getSimpleName();
+
+    private static final int REQUEST_EXTERNAL_STORAGE_RESULT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +93,40 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         registerReceiver(mReceiver, iF);
 
         displayView(0);
-        //displayListView();
+        //displayListView();]
+
+
+        //If we're running on a device above android version 6, we have to request permissions on runtime.
+        if(android.os.Build.VERSION.SDK_INT >= 23) {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                //what goes here?
+
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Toast.makeText(this, "External storage permission required to access music files", Toast.LENGTH_SHORT).show();
+                }
+                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_RESULT);
+            }
+        }
+
+    }
+
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+        if(requestCode == REQUEST_EXTERNAL_STORAGE_RESULT) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //what goes here?
+
+            }
+            else {
+                Toast.makeText(this, "External read permission has not been granted.", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
     }
 
     @Override
@@ -144,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         @Override
         public void onReceive(Context context, Intent intent) {
+
             DatabaseHandler db = new DatabaseHandler(getApplicationContext());
             String action = intent.getAction();
             String cmd = intent.getStringExtra("command");
