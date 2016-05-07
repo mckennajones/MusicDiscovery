@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -55,8 +56,7 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        searchText = (EditText)findViewById(R.id.search_box);
-
+        searchText = (EditText) findViewById(R.id.search_box);
 
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 

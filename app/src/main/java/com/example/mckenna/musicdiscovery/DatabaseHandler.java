@@ -126,7 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String where = null;
         Cursor c = 	db.query(true, TABLE_SONGS, ALL_KEYS,
-                where, null, null, null, null, null);
+                where, null, null, null, KEY_COUNT+ " DESC", null);
         if (c != null) {
             c.moveToFirst();
         }

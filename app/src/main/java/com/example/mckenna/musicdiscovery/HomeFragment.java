@@ -69,8 +69,6 @@ public class HomeFragment extends Fragment{
         int[] toViewIDs = new int[]
                 {R.id.title,     R.id.artist,           R.id.album, R.id.count};
 
-        //SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(getActivity().getApplicationContext(), R.layout.song_layout, cursor, fromFieldNames, toViewIDs);
-
         SongCursorAdapter songAdapter = new SongCursorAdapter(getContext(), cursor, 0);
 
         lv.setAdapter(songAdapter);
