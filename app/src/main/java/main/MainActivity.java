@@ -1,17 +1,14 @@
-package com.example.mckenna.musicdiscovery;
+package main;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,24 +20,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
-import android.widget.Button;
-import android.view.View.OnClickListener;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 
-import java.util.ArrayList;
+import com.example.mckenna.musicdiscovery.FragmentDrawer;
+import com.example.mckenna.musicdiscovery.R;
+
 import java.util.List;
+
+import db.DatabaseHandler;
+import db.Song;
 
 /**
  * Main Activity
  */
-public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
+public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private FragmentDrawer drawerFrag;
     private Toolbar mToolbar;
@@ -93,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         registerReceiver(mReceiver, iF);
 
         displayView(0);
-        //displayListView();]
-
 
         //If we're running on a device above android version 6, we have to request permissions on runtime.
         if(android.os.Build.VERSION.SDK_INT >= 23) {
@@ -237,6 +231,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             }
             HomeFragment tempFrag = (HomeFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_home));
             tempFrag.displayListView();
+
+            //StatsFragment statsFrag = (StatsFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_statistics));
+            //statsFrag.displayStats();
         }
     };
 

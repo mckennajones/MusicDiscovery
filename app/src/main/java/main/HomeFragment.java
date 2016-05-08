@@ -1,5 +1,4 @@
-package com.example.mckenna.musicdiscovery;
-
+package main;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
-import java.util.List;
+import com.example.mckenna.musicdiscovery.R;
+
+import adapter.SongCursorAdapter;
+import db.DatabaseHandler;
 
 /**
  * Created by mckenna on 5/4/16.
@@ -59,15 +60,7 @@ public class HomeFragment extends Fragment{
     public void displayListView(){
         DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
 
-
         Cursor cursor = db.getAllRows();
-
-        //startManagingCursor(cursor);
-
-        String[] fromFieldNames = new String[]
-                {db.KEY_TITLE, db.KEY_ARTIST, db.KEY_ALBUM, db.KEY_COUNT};
-        int[] toViewIDs = new int[]
-                {R.id.title,     R.id.artist,           R.id.album, R.id.count};
 
         SongCursorAdapter songAdapter = new SongCursorAdapter(getContext(), cursor, 0);
 

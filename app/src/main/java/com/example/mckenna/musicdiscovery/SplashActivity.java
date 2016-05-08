@@ -3,7 +3,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
+
+import main.MainActivity;
 
 /**
  * Created by mckenna on 5/6/16.

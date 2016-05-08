@@ -1,11 +1,10 @@
-package com.example.mckenna.musicdiscovery;
+package db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,10 +124,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String where = null;
         Cursor c = 	db.query(true, TABLE_SONGS, ALL_KEYS,
-                where, null, null, null, KEY_COUNT+ " DESC", null);
+                where, null, null, null, KEY_COUNT + " DESC", null);
         if (c != null) {
             c.moveToFirst();
         }
+        return c;
+    }
+
+    public Cursor getMostPlayedSong(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String highCount = "SELECT * FROM songs ORDER BY count DESC LIMIT 1";
+        Cursor c = db.rawQuery(highCount, null);
+
         return c;
     }
 

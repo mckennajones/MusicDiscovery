@@ -1,4 +1,4 @@
-package com.example.mckenna.musicdiscovery;
+package db;
 
 /**
  * Class implementation for Songs
