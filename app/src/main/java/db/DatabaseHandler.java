@@ -168,6 +168,34 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return artistStats;
     }
 
+    public Map<String,Integer> getAlbumStats(){
+        int total=0;
+        Map<String,Integer> albumStats = new HashMap<String, Integer>();
+        String songQuery;
+        String currentAlbum;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor songCounts;
+        String albumtQuery = "SELECT UNIQUE album FROM songs";
+        Cursor allAlbums = db.rawQuery(albumtQuery,null);
+
+        allAlbums.moveToFirst();
+        do{
+            currentAlbum = allAlbums.getString(allAlbums.getColumnIndex(KEY_ALBUM));
+            songQuery= "SELECT count FROM songs WHERE album = '"+ currentAlbum +"'";
+            songCounts = db.rawQuery(songQuery,null);
+            songCounts.moveToFirst();
+            do{
+                String count = songCounts.getString(songCounts.getColumnIndex(KEY_COUNT));
+                int realCount = Integer.parseInt(count);
+                total += realCount;
+            }while(songCounts.moveToNext());
+            albumStats.put(currentAlbum,total);
+            total = 0;
+        }while(allAlbums.moveToNext());
+        return albumStats;
+    }
+
+
     public Cursor getMostPlayedArtist(){
         SQLiteDatabase db = this.getReadableDatabase();
         String artist = "SELECT _id, artist, COUNT(artist) as artist_count FROM songs GROUP BY artist ORDER BY artist_count DESC LIMIT 1";
