@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * SQLite database to keep track of songs
@@ -88,7 +90,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // consider moving string out of query here for readability
-        Cursor cursor = db.query(TABLE_SONGS, new String[] {KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM}, KEY_SONGID + "=?", new String[] { String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(TABLE_SONGS, new String[]{KEY_SONGID, KEY_TITLE, KEY_ARTIST, KEY_ALBUM}, KEY_SONGID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
 
         Song song = new Song(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));
 
@@ -137,6 +139,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(highCount, null);
 
         return c;
+    }
+
+    public Map<String,Integer> getArtistStats(){
+        int total=0;
+        Map<String,Integer> artistStats = new HashMap<String, Integer>();
+        String songQuery;
+        String currentArtist;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor songCounts;
+        String artistQuery = "SELECT UNIQUE artist FROM songs";
+        Cursor allArtists = db.rawQuery(artistQuery,null);
+
+        allArtists.moveToFirst();
+        do{
+            currentArtist = allArtists.getString(allArtists.getColumnIndex(KEY_ARTIST));
+            songQuery= "SELECT count FROM songs WHERE artist = '"+ currentArtist +"'";
+            songCounts = db.rawQuery(songQuery,null);
+            songCounts.moveToFirst();
+            do{
+                String count = songCounts.getString(songCounts.getColumnIndex(KEY_COUNT));
+                int realCount = Integer.parseInt(count);
+                total += realCount;
+            }while(songCounts.moveToNext());
+            artistStats.put(currentArtist,total);
+            total = 0;
+        }while(allArtists.moveToNext());
+        return artistStats;
     }
 
     public Cursor getMostPlayedArtist(){
