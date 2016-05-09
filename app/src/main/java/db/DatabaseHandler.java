@@ -139,6 +139,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getMostPlayedArtist(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String artist = "SELECT _id, artist, COUNT(artist) as artist_count FROM songs GROUP BY artist ORDER BY artist_count DESC LIMIT 1";
+
+        Cursor c = db.rawQuery(artist, null);
+
+        return c;
+    }
+
     public int getSongCount(){
         String getCount = "SELECT * FROM " + TABLE_SONGS;
         SQLiteDatabase db = this.getReadableDatabase();
