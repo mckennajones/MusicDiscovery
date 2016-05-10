@@ -148,7 +148,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String currentArtist;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor songCounts;
-        String artistQuery = "SELECT UNIQUE artist FROM songs";
+        String artistQuery = "SELECT DISTINCT artist FROM songs";
         Cursor allArtists = db.rawQuery(artistQuery,null);
 
         allArtists.moveToFirst();
@@ -175,7 +175,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String currentAlbum;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor songCounts;
-        String albumtQuery = "SELECT UNIQUE album FROM songs";
+        String albumtQuery = "SELECT DISTINCT album FROM songs";
         Cursor allAlbums = db.rawQuery(albumtQuery,null);
 
         allAlbums.moveToFirst();
