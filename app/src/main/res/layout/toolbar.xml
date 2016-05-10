@@ -13,5 +13,7 @@
         android:id="@+id/search_box"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:hint="Album, artist, or song..."
+        android:maxLines="1"/>
 </android.support.v7.widget.Toolbar>

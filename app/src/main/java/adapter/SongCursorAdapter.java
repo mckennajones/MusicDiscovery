@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +18,7 @@ import java.net.ConnectException;
 /**
  * Created by mckenna on 5/4/16.
  */
-public class SongCursorAdapter extends CursorAdapter {
+public class SongCursorAdapter extends CursorAdapter implements Filterable{
 
     public SongCursorAdapter(Context context, Cursor cursor, int flags){
         super(context, cursor, 0);

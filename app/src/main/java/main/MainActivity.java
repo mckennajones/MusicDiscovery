@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -17,10 +19,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
@@ -30,6 +35,7 @@ import com.example.mckenna.musicdiscovery.R;
 
 import java.util.List;
 
+import adapter.SongCursorAdapter;
 import db.DatabaseHandler;
 import db.Song;
 
@@ -58,7 +64,21 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        searchText = (EditText) findViewById(R.id.search_box);
+        searchText = (EditText) this.findViewById(R.id.search_box);
+        ListView lv = (ListView) findViewById(R.id.listView);
+        searchText.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void afterTextChanged(Editable s) {
+                ListView lv = (ListView) findViewById(R.id.listView);
+                SongCursorAdapter filterAdapter = (SongCursorAdapter) lv.getAdapter();
+                filterAdapter.getFilter().filter(s.toString());
+            }
+        });
 
         DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
@@ -142,9 +162,11 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         }
 
         if(id == R.id.action_search){
+            HomeFragment tempFrag = (HomeFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_home));
             //Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
             if(searchText.getVisibility() == View.VISIBLE) {
                 searchText.setVisibility(View.GONE);
+                tempFrag.displayListView();
             }
             else{
                 searchText.setVisibility(View.VISIBLE);
