@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -44,11 +42,9 @@ import db.Song;
  */
 public class MainActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
-    private FragmentDrawer drawerFrag;
-    private Toolbar mToolbar;
+    FragmentDrawer drawerFrag;
+    Toolbar mToolbar;
     private EditText searchText;
-
-    private static String TAG = MainActivity.class.getSimpleName();
 
     private static final int REQUEST_EXTERNAL_STORAGE_RESULT = 1;
 
@@ -79,8 +75,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 filterAdapter.getFilter().filter(s.toString());
             }
         });
-
-        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
         drawerFrag = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFrag.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
@@ -114,31 +108,13 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
         if(android.os.Build.VERSION.SDK_INT >= 23) {
 
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                //what goes here?
-
+                Toast.makeText(this, "External read permission has been granted.", Toast.LENGTH_SHORT).show();
             } else {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     Toast.makeText(this, "External storage permission required to access music files", Toast.LENGTH_SHORT).show();
                 }
                 requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_RESULT);
             }
-        }
-
-    }
-
-    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
-        if(requestCode == REQUEST_EXTERNAL_STORAGE_RESULT) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //what goes here?
-
-            }
-            else {
-                Toast.makeText(this, "External read permission has not been granted.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
     }
@@ -176,24 +152,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
         return super.onOptionsItemSelected(item);
     }
-
-    /*private void displayListView(){
-        DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-
-        Cursor cursor = db.getAllRows();
-
-        //startManagingCursor(cursor);
-
-        String[] fromFieldNames = new String[]
-                {db.KEY_TITLE, db.KEY_ARTIST, db.KEY_ALBUM, db.KEY_COUNT};
-        int[] toViewIDs = new int[]
-                {R.id.title,     R.id.artist,           R.id.album, R.id.count};
-
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(this, R.layout.song_layout, cursor, fromFieldNames, toViewIDs);
-
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(cursorAdapter);
-    }*/
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -253,17 +211,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             }
             HomeFragment tempFrag = (HomeFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_home));
             tempFrag.displayListView();
-
-            //StatsFragment statsFrag = (StatsFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_statistics));
-            //statsFrag.displayStats();
         }
     };
-
-    public void musicIntent(View v)
-    {
-        Intent musicPlayer = new Intent(MainActivity.this, MainActivity.class);
-        MainActivity.this.startActivity(musicPlayer);
-    }
 
     @Override
     public void onDrawerItemSelected(View view, int position) {

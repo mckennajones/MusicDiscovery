@@ -1,18 +1,14 @@
 package main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,18 +19,15 @@ import adapter.SongCursorAdapter;
 import db.DatabaseHandler;
 
 /**
- * Created by mckenna on 5/4/16.
+ * Fragment that is shown when app first starts
  */
 public class HomeFragment extends Fragment {
-    private Context ctx;
     public ListView lv;
     public ImageView imageView;
-    private EditText searchText;
-    private View rootView;
+    View rootView;
 
     public HomeFragment() {
-        // Required empty public constructor
-        this.ctx = ctx;
+
     }
 
     @Override
@@ -88,8 +81,6 @@ public class HomeFragment extends Fragment {
         SQLiteDatabase database = db.getReadableDatabase();
 
         queryBuilder.setTables("songs");
-
-        String asColumnsToReturn[] = {"_id", "artist", "title", "album", "count", };
 
         if(constraint==null||constraint.length()==0)
         {

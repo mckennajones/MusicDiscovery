@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.mckenna.musicdiscovery.R;
@@ -21,9 +20,6 @@ import db.DatabaseHandler;
 
 
 public class StatsFragment extends Fragment {
-
-    public ListView listView;
-    public ImageView imageView;
     public View rootView;
 
     public StatsFragment() {
@@ -127,5 +123,6 @@ public class StatsFragment extends Fragment {
         albumCardTitle.setText("You've spent the most time listening to");
         albumCardAlbum.setText(mpAlbum2);
         coverView.setImageURI(coverUri);
+        albumCursor.close();
     }
 }

@@ -19,17 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.NavDrawerAdapter;
-import com.example.mckenna.musicdiscovery.NavDrawerItem;
-import com.example.mckenna.musicdiscovery.R;
 
 public class FragmentDrawer extends Fragment {
 
-    private static String TAG = FragmentDrawer.class.getSimpleName();
-
-    private RecyclerView recyclerView;
+    RecyclerView recyclerView;
+    NavDrawerAdapter adapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
-    private NavDrawerAdapter adapter;
     private View containerView;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
@@ -124,9 +120,9 @@ public class FragmentDrawer extends Fragment {
     }
 
     public static interface ClickListener {
-        public void onClick(View view, int position);
+        void onClick(View view, int position);
 
-        public void onLongClick(View view, int position);
+        void onLongClick(View view, int position);
     }
 
     static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
@@ -175,6 +171,6 @@ public class FragmentDrawer extends Fragment {
     }
 
     public interface FragmentDrawerListener {
-        public void onDrawerItemSelected(View view, int position);
+        void onDrawerItemSelected(View view, int position);
     }
 }

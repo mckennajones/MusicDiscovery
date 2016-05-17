@@ -1,7 +1,7 @@
 package com.example.mckenna.musicdiscovery;
 
 /**
- * Created by mckenna on 5/4/16.
+ * Nav Drawer
  */
 public class NavDrawerItem {
     private boolean showNotify;

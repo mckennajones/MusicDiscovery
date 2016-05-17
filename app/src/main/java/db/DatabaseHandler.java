@@ -84,6 +84,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert(TABLE_SONGS, null, values);
         }
         db.close();
+        cursor.close();
     }
 
     public Song getSong(int id){
@@ -99,7 +100,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public List<Song> getSongs(){
-        List<Song> songList = new ArrayList<Song>();
+        List<Song> songList = new ArrayList<>();
 
         String selectAll = "SELECT * FROM " + TABLE_SONGS;
 
@@ -143,7 +144,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public Map<String,Integer> getArtistStats(){
         int total=0;
-        Map<String,Integer> artistStats = new HashMap<String, Integer>();
+        Map<String,Integer> artistStats = new HashMap<>();
         String songQuery;
         String currentArtist;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -165,6 +166,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             artistStats.put(currentArtist,total);
             total = 0;
         }while(allArtists.moveToNext());
+        allArtists.close();
+        songCounts.close();
         return artistStats;
     }
 
@@ -192,6 +195,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             albumStats.put(currentAlbum,total);
             total = 0;
         }while(allAlbums.moveToNext());
+        allAlbums.close();
+        songCounts.close();
         return albumStats;
     }
 
@@ -226,7 +231,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public String checkTitle(String title){
-        int i = 0;
+        int i;
         String fixedTitle = title;
         for(i=0;i<title.length();i++) {
             if(title.charAt(i) == '\''){
