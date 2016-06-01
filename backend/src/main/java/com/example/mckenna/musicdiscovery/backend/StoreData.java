@@ -13,6 +13,7 @@ import javax.servlet.http.*;
 /**
  * Class to store music data in the app engine
  */
+@SuppressWarnings("serial")
 public class StoreData extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
         resp.setContentType("application/json");

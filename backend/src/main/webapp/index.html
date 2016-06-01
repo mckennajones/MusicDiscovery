@@ -1,48 +1,83 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
 <html>
 <head>
-    <title>Hello, App Engine!</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Send data for storage</title>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <style>
+        body {
+        font-family: sans-serif;
+        }
+
+        .label {
+        margin-top: 1rem;
+        }
+    </style>
+    <script>
+	$(function() {
+		$("form").submit(function() {
+			function onerror(x) {
+				alert("Error:" + x);
+			}
+			function onsuccess(result) {
+				if (result.errormsg)
+					onerror(result.errormsg);
+				else
+					alert("Success! Return... " + JSON.stringify(result));
+			}
+
+			var params = {
+				id : $("#num").val(),
+				title : $("#title").val(),
+				artist : $("#artist").val(),
+				album : $("#album").val()
+			};
+			$.ajax({
+				url : "/storedata",
+				method : "post",
+				data : params,
+				dataType : "json",
+				error : onerror,
+				success : onsuccess
+			})
+			return false;
+		});
+	});
+</script>
 </head>
-<body role="document" style="padding-top: 70px;">
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Hello, App Engine!</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="https://developers.google.com/appengine/docs/java/">Google App Engine documentation</a></li>
-                <li><a href="https://console.developers.google.com">Google Developers Console</a></li>
-            </ul>
-        </div>
+
+<body>
+<h1>Enter song information</h1>
+
+<form>
+    <div class="label">Number:</div>
+    <div>
+        <input type="text" id="num">
     </div>
-</div>
-
-<div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Hello, App Engine!</h1>
-                <p>Enter your name and press the button below to call <code>MyServlet</code>.</p>
-
-                <form action="/hello" method="POST">
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Name" name="name" />
-                          <span class="input-group-btn">
-                             <button class="btn btn-default btn-primary btn-group btn-lg" type="submit" id="helloButton">Say "Hello";</button>
-                          </span>
-                    </div>
-                </form>
-                <br/>
-                <p>For more information about Google App Engine for Java, check out the <a href="https://developers.google.com/appengine/docs/java/">App Engine documentation</a>.</p>
-                <p>If you need step-by-step instructions for connecting your Android application to this backend module, see <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloWorld">"App Engine Java Servlet Module" template documentation</a>.</p>
-            </div>
-        </div>
+    <div class="label">Title:</div>
+    <div>
+        <input type="text" id="title">
     </div>
-</div>
-
+    <div class="label">Artist:</div>
+    <div>
+        <input type="text" id="artist">
+    </div>
+    <div class="label">Album:</div>
+    <div>
+        <input type="text" id="album">
+    </div>
+    <div class="label">
+        <input type="submit" value="Send"> <input type="reset"
+                                                  value="Clear form">
+    </div>
+</form>
 </body>
 </html>

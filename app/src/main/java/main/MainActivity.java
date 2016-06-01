@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_RESULT);
             }
         }
+
+        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Music bang"));
 
     }
 
