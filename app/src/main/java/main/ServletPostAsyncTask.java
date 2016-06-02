@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -24,17 +27,17 @@ import javax.net.ssl.HttpsURLConnection;
  * Servel post async task to execute backend functions
  */
 
-class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+class ServletPostAsyncTask extends AsyncTask<Pair<Context, List<NameValuePair>>, Void, String> {
     private Context context;
 
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected String doInBackground(Pair<Context, List<NameValuePair>>... params) {
         context = params[0].first;
-        String name = params[0].second;
+        List<NameValuePair> name = params[0].second;
 
         try {
             // Set up the request
-            URL url = new URL("https://music-discovery-1316.appspot.com/hello");
+            URL url = new URL("https://music-discovery-1316.appspot.com/storedata");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
@@ -42,7 +45,12 @@ class ServletPostAsyncTask extends AsyncTask<Pair<Context, String>, Void, String
 
             // Build name data request params
             Map<String, String> nameValuePairs = new HashMap<>();
-            nameValuePairs.put("name", name);
+            for(NameValuePair nvp : name){
+                String field = nvp.getName();
+                String value = nvp.getValue();
+                nameValuePairs.put(field, value);
+            }
+
             String postParams = buildPostDataString(nameValuePairs);
 
             // Execute HTTP Post

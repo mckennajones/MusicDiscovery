@@ -10,6 +10,7 @@ import java.util.HashMap;
 import javax.jdo.PersistenceManager;
 
 import javax.servlet.http.*;
+
 /**
  * Class to store music data in the app engine
  */
@@ -30,6 +31,7 @@ public class StoreData extends HttpServlet {
             String title = req.getParameter("title");
             String artist = req.getParameter("artist");
             String album = req.getParameter("album");
+            String count = req.getParameter("count");
 
             if (id < 0) {
                 throw new IllegalArgumentException("Invalid song id");
@@ -46,6 +48,7 @@ public class StoreData extends HttpServlet {
             song.setTitle(title);
             song.setArtist(artist);
             song.setAlbum(album);
+            song.setCount(Integer.parseInt(count));
             pm.makePersistent(song);
 
             out.write(formatAsJson(song));
@@ -73,6 +76,7 @@ public class StoreData extends HttpServlet {
         obj.put("title", song.getTitle());
         obj.put("artist", song.getArtist());
         obj.put("album", song.getAlbum());
+        obj.put("count", Integer.toString(song.getCount()));
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();

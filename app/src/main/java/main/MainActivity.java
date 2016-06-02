@@ -29,9 +29,13 @@ import android.widget.Toast;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.example.mckenna.musicdiscovery.FragmentDrawer;
 import com.example.mckenna.musicdiscovery.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import adapter.SongCursorAdapter;
@@ -117,9 +121,6 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_EXTERNAL_STORAGE_RESULT);
             }
         }
-
-        new ServletPostAsyncTask().execute(new Pair<Context, String>(this, "Music bang"));
-
     }
 
     @Override
@@ -214,6 +215,16 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
             }
             HomeFragment tempFrag = (HomeFragment)getSupportFragmentManager().findFragmentByTag(getString(R.string.title_home));
             tempFrag.displayListView();
+
+            // Send newly added song to datastore
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("id", Integer.toString(song.getId())));
+            nameValuePairs.add(new BasicNameValuePair("title", song.getTitle()));
+            nameValuePairs.add(new BasicNameValuePair("artist", song.getArtist()));
+            nameValuePairs.add(new BasicNameValuePair("album", song.getAlbum()));
+            nameValuePairs.add(new BasicNameValuePair("count", Integer.toString(song.getCount())));
+
+            new ServletPostAsyncTask().execute(new Pair<Context, List<NameValuePair>>(context, nameValuePairs));
         }
     };
 

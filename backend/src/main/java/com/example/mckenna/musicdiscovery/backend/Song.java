@@ -22,6 +22,8 @@ public class Song {
     @Persistent
     private String album;
 
+    @Persistent int count;
+
     public int getId(){
         return id;
     }
@@ -38,6 +40,8 @@ public class Song {
         return album != null ? album : "";
     }
 
+    public int getCount(){ return count;}
+
     public void setId(int id){
         this.id = id;
     }
@@ -53,4 +57,6 @@ public class Song {
     public void setAlbum(String album){
         this.album = album != null ? album : "";
     }
+
+    public void setCount(int count){ this.count = count;}
 }

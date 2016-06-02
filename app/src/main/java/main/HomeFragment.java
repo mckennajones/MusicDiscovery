@@ -1,11 +1,13 @@
 package main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.example.mckenna.musicdiscovery.R;
 
 import adapter.SongCursorAdapter;
 import db.DatabaseHandler;
+import db.Song;
 
 /**
  * Fragment that is shown when app first starts
