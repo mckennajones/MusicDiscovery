@@ -22,20 +22,10 @@ public class StoreData extends HttpServlet {
 
         PersistenceManager pm = PMF.getPMF().getPersistenceManager();
         try {
-            int id;
-            try {
-                id = Integer.parseInt(req.getParameter("id") + "");
-            } catch (NumberFormatException nfe) {
-                id = -1;
-            }
             String title = req.getParameter("title");
             String artist = req.getParameter("artist");
             String album = req.getParameter("album");
-            String count = req.getParameter("count");
 
-            if (id < 0) {
-                throw new IllegalArgumentException("Invalid song id");
-            }
             if (title == null || title.length() == 0)
                 throw new IllegalArgumentException("Invalid song title");
             if (artist == null || artist.length() == 0)
@@ -44,11 +34,9 @@ public class StoreData extends HttpServlet {
                 throw new IllegalArgumentException("Invalid song album");
 
             Song song = new Song();
-            song.setId(id);
             song.setTitle(title);
             song.setArtist(artist);
             song.setAlbum(album);
-            song.setCount(Integer.parseInt(count));
             pm.makePersistent(song);
 
             out.write(formatAsJson(song));
@@ -72,11 +60,9 @@ public class StoreData extends HttpServlet {
 
     public static String formatAsJson(Song song) {
         HashMap<String, String> obj = new HashMap<String, String>();
-        obj.put("id", Integer.toString(song.getId()));
         obj.put("title", song.getTitle());
         obj.put("artist", song.getArtist());
         obj.put("album", song.getAlbum());
-        obj.put("count", Integer.toString(song.getCount()));
 
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();

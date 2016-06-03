@@ -10,8 +10,6 @@ import com.google.appengine.api.datastore.Text;
  */
 @PersistenceCapable
 public class Song {
-    @PrimaryKey
-    private int id;
 
     @Persistent
     private String title;
@@ -21,12 +19,6 @@ public class Song {
 
     @Persistent
     private String album;
-
-    @Persistent int count;
-
-    public int getId(){
-        return id;
-    }
 
     public String getTitle(){
         return title != null ? title : "";
@@ -40,12 +32,6 @@ public class Song {
         return album != null ? album : "";
     }
 
-    public int getCount(){ return count;}
-
-    public void setId(int id){
-        this.id = id;
-    }
-
     public void setTitle(String title){
         this.title = title != null ? title : "";
     }
@@ -57,6 +43,4 @@ public class Song {
     public void setAlbum(String album){
         this.album = album != null ? album : "";
     }
-
-    public void setCount(int count){ this.count = count;}
 }

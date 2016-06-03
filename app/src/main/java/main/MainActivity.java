@@ -218,11 +218,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
             // Send newly added song to datastore
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("id", Integer.toString(song.getId())));
             nameValuePairs.add(new BasicNameValuePair("title", song.getTitle()));
             nameValuePairs.add(new BasicNameValuePair("artist", song.getArtist()));
             nameValuePairs.add(new BasicNameValuePair("album", song.getAlbum()));
-            nameValuePairs.add(new BasicNameValuePair("count", Integer.toString(song.getCount())));
 
             new ServletPostAsyncTask().execute(new Pair<Context, List<NameValuePair>>(context, nameValuePairs));
         }
