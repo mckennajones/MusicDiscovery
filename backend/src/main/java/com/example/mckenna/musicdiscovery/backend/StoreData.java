@@ -1,12 +1,16 @@
 package com.example.mckenna.musicdiscovery.backend;
 
+import com.google.appengine.repackaged.com.google.common.base.Pair;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 
 import javax.servlet.http.*;
@@ -16,7 +20,7 @@ import javax.servlet.http.*;
  */
 @SuppressWarnings("serial")
 public class StoreData extends HttpServlet {
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException{
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
 
@@ -41,8 +45,33 @@ public class StoreData extends HttpServlet {
 
             out.write(formatAsJson(song));
 
-        } catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             out.write(formatAsJson(iae));
+        } finally {
+            pm.close();
+        }
+    }
+
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json");
+        PrintWriter out = resp.getWriter();
+        PersistenceManager pm = PMF.getPMF().getPersistenceManager();
+        try {
+            List<Song> all_songs = Song.loadAll(pm);
+            Pair<String, Integer> topArtist = Song.mostPlayedArtist(all_songs);
+
+            HashMap<String, String> obj = new HashMap<String, String>();
+            obj.put(topArtist.first, Integer.toString(topArtist.second));
+
+            GsonBuilder builder = new GsonBuilder();
+            Gson gson = builder.create();
+            String rv = gson.toJson(obj);
+
+            out.write(rv);
+
+
+        } catch (JDOObjectNotFoundException ex) {
+            out.write("JDO Object not found\n");
         } finally {
             pm.close();
         }
@@ -69,4 +98,17 @@ public class StoreData extends HttpServlet {
         String rv = gson.toJson(obj);
         return rv;
     }
+
+    private long getLong(HttpServletRequest req, String key, long dflt) {
+        long rv;
+        try {
+            rv = Long.parseLong(req.getParameter(key) + "");
+        } catch (NumberFormatException nfe) {
+            rv = dflt;
+        }
+        return rv;
+    }
+
+
 }
+
