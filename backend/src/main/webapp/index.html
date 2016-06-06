@@ -22,7 +22,7 @@
     </style>
     <script>
 	$(function() {
-		$("form").submit(function() {
+		$("#postForm").submit(function() {
 			function onerror(x) {
 				alert("Error:" + x);
 			}
@@ -49,6 +49,82 @@
 			})
 			return false;
 		});
+
+        $("#getArtistForm").submit(function() {
+		    function onerror(x) {
+				alert("Error:" + x);
+			}
+			function onsuccess(result) {
+				if (result.errormsg)
+					onerror(result.errormsg);
+				else
+					alert("Success! Return... " + JSON.stringify(result));
+			}
+			var params = {
+				stat : "artist"
+			};
+
+			$.ajax({
+			    url : "/storedata",
+			    method : "get",
+			    data : params,
+			    dataType : "json",
+			    error : onerror,
+				success : onsuccess
+			})
+			return false;
+		});
+
+		$("#getSongForm").submit(function() {
+		    function onerror(x) {
+				alert("Error:" + x);
+			}
+			function onsuccess(result) {
+				if (result.errormsg)
+					onerror(result.errormsg);
+				else
+					alert("Success! Return... " + JSON.stringify(result));
+			}
+			var params = {
+				stat : "song"
+			};
+
+			$.ajax({
+			    url : "/storedata",
+			    method : "get",
+			    data : params,
+			    dataType : "json",
+			    error : onerror,
+				success : onsuccess
+			})
+			return false;
+		});
+
+		$("#getAlbumForm").submit(function() {
+		    function onerror(x) {
+				alert("Error:" + x);
+			}
+			function onsuccess(result) {
+				if (result.errormsg)
+					onerror(result.errormsg);
+				else
+					alert("Success! Return... " + JSON.stringify(result));
+			}
+			var params = {
+				stat : "album"
+			};
+
+			$.ajax({
+			    url : "/storedata",
+			    method : "get",
+			    data : params,
+			    dataType : "json",
+			    error : onerror,
+				success : onsuccess
+			})
+			return false;
+		});
+
 	});
 </script>
 </head>
@@ -57,7 +133,7 @@
 <body>
 <h1>Enter song information</h1>
 
-<form>
+<form id="postForm">
     <div class="label">Title:</div>
     <div>
         <input type="text" id="title">
@@ -73,6 +149,24 @@
     <div class="label">
         <input type="submit" value="Send"> <input type="reset"
                                                   value="Clear form">
+    </div>
+</form>
+
+<form id="getArtistForm">
+    <div>
+        <input type="submit" value="Get artist">
+    </div>
+</form>
+
+<form id="getSongForm">
+    <div>
+        <input type="submit" value="Get song">
+    </div>
+</form>
+
+<form id="getAlbumForm">
+    <div>
+        <input type="submit" value="Get album">
     </div>
 </form>
 </body>

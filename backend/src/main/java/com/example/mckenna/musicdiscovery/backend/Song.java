@@ -61,7 +61,7 @@ public class Song {
         return rv;
     }
 
-    public static Pair<String, Integer> mostPlayedArtist(List<Song> songs) {
+    public static Map.Entry<String, Integer> mostPlayedArtist(List<Song> songs) {
 
         Map<String, Integer> map = new HashMap<>();
         for (Song s : songs) {
@@ -75,14 +75,19 @@ public class Song {
             if (max == null || e.getValue() > max.getValue())
                 max = e;
         }
-
-        Pair<String, Integer> rv = new Pair<String, Integer>(max.getKey(), max.getValue());
+        Map.Entry<String, Integer> rv = null;
+        if(max == null){
+            rv.setValue(0);
+        }
+        else {
+            rv = max;
+        }
 
         return rv;
 
     }
 
-    public Pair<String, Integer> mostPlayedAlbum(List<Song> songs) {
+    public static Map.Entry<String, Integer> mostPlayedAlbum(List<Song> songs) {
 
         Map<String, Integer> map = new HashMap<>();
         for (Song s : songs) {
@@ -97,13 +102,19 @@ public class Song {
                 max = e;
         }
 
-        Pair<String, Integer> rv = new Pair<String, Integer>(max.getKey(), max.getValue());
+        Map.Entry<String, Integer> rv = null;
+        if(max == null){
+            rv.setValue(0);
+        }
+        else {
+            rv = max;
+        }
 
         return rv;
 
     }
 
-    public static Pair<String, Integer> mostPlayedSong(List<Song> songs) {
+    public static Map.Entry<String, Integer> mostPlayedSong(List<Song> songs) {
 
         Map<String, Integer> map = new HashMap<>();
         for (Song s : songs) {
@@ -118,11 +129,14 @@ public class Song {
                 max = e;
         }
 
-        Pair<String, Integer> rv = new Pair<String, Integer>(max.getKey(), max.getValue());
+        Map.Entry<String, Integer> rv = null;
+        if(max == null){
+            rv.setValue(0);
+        }
+        else {
+            rv = max;
+        }
 
         return rv;
-
     }
-
-
 }

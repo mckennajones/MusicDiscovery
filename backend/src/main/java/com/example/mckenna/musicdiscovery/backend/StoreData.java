@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,19 +58,46 @@ public class StoreData extends HttpServlet {
         PrintWriter out = resp.getWriter();
         PersistenceManager pm = PMF.getPMF().getPersistenceManager();
         try {
-            List<Song> all_songs = Song.loadAll(pm);
-            Pair<String, Integer> topArtist = Song.mostPlayedArtist(all_songs);
+            String reqStat = req.getParameter("stat");
+            if(reqStat.equals("artist")) {
+                List<Song> all_songs = Song.loadAll(pm);
+                Map.Entry<String, Integer> topArtist = Song.mostPlayedArtist(all_songs);
 
-            HashMap<String, String> obj = new HashMap<String, String>();
-            obj.put(topArtist.first, Integer.toString(topArtist.second));
+                HashMap<String, String> obj = new HashMap<String, String>();
+                obj.put(topArtist.getKey(), Integer.toString(topArtist.getValue()));
 
-            GsonBuilder builder = new GsonBuilder();
-            Gson gson = builder.create();
-            String rv = gson.toJson(obj);
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                String rv = gson.toJson(obj);
 
-            out.write(rv);
+                out.write(rv);
+            }
+            else if(reqStat.equals("song")){
+                List<Song> all_songs = Song.loadAll(pm);
+                Map.Entry<String, Integer> topSong = Song.mostPlayedSong(all_songs);
 
+                HashMap<String, String> obj = new HashMap<String, String>();
+                obj.put(topSong.getKey(), Integer.toString(topSong.getValue()));
 
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                String rv = gson.toJson(obj);
+
+                out.write(rv);
+            }
+            else if(reqStat.equals("album")){
+                List<Song> all_songs = Song.loadAll(pm);
+                Map.Entry<String, Integer> topAlbum = Song.mostPlayedAlbum(all_songs);
+
+                HashMap<String, String> obj = new HashMap<String, String>();
+                obj.put(topAlbum.getKey(), Integer.toString(topAlbum.getValue()));
+
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson = builder.create();
+                String rv = gson.toJson(obj);
+
+                out.write(rv);
+            }
         } catch (JDOObjectNotFoundException ex) {
             out.write("JDO Object not found\n");
         } finally {
