@@ -9,14 +9,17 @@
 
     <string name="nav_item_home">Home</string>
     <string name="nav_item_statistics">Statistics</string>
+    <string name="nav_item_globalstats">Global Stats</string>
 
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_home</item>
         <item>@string/nav_item_statistics</item>
+        <item>@string/nav_item_globalstats</item>
     </string-array>
 
     <string name="title_home">Home</string>
     <string name="title_statistics">Statistics</string>
+    <string name="title_globalstats">Global Statistics</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

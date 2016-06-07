@@ -27,36 +27,27 @@ import javax.net.ssl.HttpsURLConnection;
  * Servlet post async task to execute backend functions
  */
 
-class ServletPostAsyncTask extends AsyncTask<Pair<Context, List<NameValuePair>>, Void, String> {
+class ServletGetTask extends AsyncTask<Context, Void, String> {
     private Context context;
 
     @Override
-    protected String doInBackground(Pair<Context, List<NameValuePair>>... params) {
-        context = params[0].first;
-        List<NameValuePair> name = params[0].second;
+    protected String doInBackground(Context... params) {
+        context = params[0];
 
         try {
             // Set up the request
             URL url = new URL("https://music-discovery-1316.appspot.com/storedata");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod("GET");
             connection.setDoInput(true);
             connection.setDoOutput(true);
 
-            // Build name data request params
-            Map<String, String> nameValuePairs = new HashMap<>();
-            for(NameValuePair nvp : name){
-                String field = nvp.getName();
-                String value = nvp.getValue();
-                nameValuePairs.put(field, value);
-            }
-
-            String postParams = buildPostDataString(nameValuePairs);
+            String getParam = "artist";
 
             // Execute HTTP Post
             OutputStream outputStream = connection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-            writer.write(postParams);
+            writer.write(getParam);
             writer.flush();
             writer.close();
             outputStream.close();

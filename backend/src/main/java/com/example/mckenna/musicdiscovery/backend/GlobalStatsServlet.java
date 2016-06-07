@@ -61,7 +61,7 @@ public class GlobalStatsServlet extends HttpServlet {
             top.setDay(date_string);
 
             //put in datastore
-            pm.makePersistent(topSong);
+            pm.makePersistent(top);
 
         } catch (IllegalArgumentException iae) {
             //the fuck goes here

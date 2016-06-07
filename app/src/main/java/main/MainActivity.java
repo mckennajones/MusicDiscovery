@@ -243,6 +243,9 @@ public class MainActivity extends AppCompatActivity implements FragmentDrawer.Fr
                 fragment = new StatsFragment();
                 title = getString(R.string.title_statistics);
                 break;
+            case 2:
+                fragment = new GlobalFragment();
+                title = getString(R.string.title_globalstats);
             default:
                 break;
         }

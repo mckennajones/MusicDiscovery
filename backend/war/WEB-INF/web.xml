@@ -8,6 +8,16 @@
         <servlet-name>StoreData</servlet-name>
         <url-pattern>/storedata</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GlobalStatsServlet</servlet-name>
+        <servlet-class>com.example.mckenna.musicdiscovery.backend.GlobalStatsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GlobalStatsServlet</servlet-name>
+        <url-pattern>/globalstats</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
