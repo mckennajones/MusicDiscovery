@@ -125,6 +125,30 @@
 			return false;
 		});
 
+		$("#getDaily").submit(function() {
+		    function onerror(x) {
+				alert("Error:" + x);
+			}
+			function onsuccess(result) {
+				if (result.errormsg)
+					onerror(result.errormsg);
+				else
+					alert("Success! Return... " + JSON.stringify(result));
+			}
+			var params = {
+				stat : "album"
+			};
+
+			$.ajax({
+			    url : "/getdaily",
+			    method : "get",
+			    dataType : "json",
+			    error : onerror,
+				success : onsuccess
+			})
+			return false;
+		});
+
 	});
 </script>
 </head>
@@ -167,6 +191,12 @@
 <form id="getAlbumForm">
     <div>
         <input type="submit" value="Get album">
+    </div>
+</form>
+
+<form id="getDaily">
+    <div>
+        <input type="submit" value="Get Daily">
     </div>
 </form>
 </body>

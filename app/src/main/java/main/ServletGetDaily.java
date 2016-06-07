@@ -33,14 +33,14 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.xml.transform.Result;
 
 /**
- * Servlet post async task to execute backend functions
+ * Servlet post async task to get Daily stats
  */
 
-class ServletGetTask extends AsyncTask<Context, Void, String> {
+class ServletGetDaily extends AsyncTask<Context, Void, String> {
     private Context context;
     private View rootView;
 
-    public ServletGetTask(View rv){
+    public ServletGetDaily(View rv){
         rootView = rv;
     }
 
@@ -50,7 +50,7 @@ class ServletGetTask extends AsyncTask<Context, Void, String> {
 
         try {
             // GET request
-            URL url = new URL("https://music-discovery-1316.appspot.com/storedata");
+            URL url = new URL("https://music-discovery-1316.appspot.com/getdaily");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -76,27 +76,9 @@ class ServletGetTask extends AsyncTask<Context, Void, String> {
         }
     }
 
-    private String buildPostDataString(Map<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            if (first) {
-                first = false;
-            } else {
-                result.append("&");
-            }
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
-    }
-
     @Override
     protected void onPostExecute(String result) {
-        //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
 
         try {
             HashMap<String, String> map = new HashMap<String, String>();
@@ -109,19 +91,15 @@ class ServletGetTask extends AsyncTask<Context, Void, String> {
                 map.put(key, value);
             }
 
-            TextView songCardTitle = (TextView) rootView.findViewById(R.id.globalSongCardTitle);
-            TextView songCardSong = (TextView) rootView.findViewById(R.id.globalMpSong);
-            TextView artistCardTitle = (TextView) rootView.findViewById(R.id.globalArtistCardTitle);
-            TextView artistCardArtist = (TextView) rootView.findViewById(R.id.globalMpArtist);
-            TextView albumCardTitle = (TextView) rootView.findViewById(R.id.globalAlbumCardTitle);
-            TextView albumCardAlbum = (TextView) rootView.findViewById(R.id.globalMpAlbum);
+            TextView dailyTitle = (TextView) rootView.findViewById(R.id.dailyTitle);
+            TextView dailyDate = (TextView) rootView.findViewById(R.id.dailyDate);
+            TextView dailySong = (TextView) rootView.findViewById(R.id.dailySong);
+            TextView dailyArtist = (TextView) rootView.findViewById(R.id.dailyArtist);
 
-            songCardTitle.setText("Global Most Played Song");
-            artistCardTitle.setText("Global Most Played Artist");
-            albumCardTitle.setText("Global Most Played Album");
-            songCardSong.setText(map.get("title"));
-            artistCardArtist.setText(map.get("artist"));
-            albumCardAlbum.setText(map.get("album"));
+            dailyTitle.setText("The most played song for");
+            dailyDate.setText(map.get("date") + " is ");
+            dailyArtist.setText("By " + map.get("artist"));
+            dailySong.setText(map.get("title"));
 
         }
         catch (JSONException e){

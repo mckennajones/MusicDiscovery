@@ -61,5 +61,6 @@ public class GlobalFragment extends Fragment {
 
     public void displayGlobalStats(){
         new ServletGetTask(rootView).execute(getContext());
+        new ServletGetDaily(rootView).execute(getContext());
     }
 }

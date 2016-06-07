@@ -18,6 +18,16 @@
         <url-pattern>/globalstats</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>GetDailyServlet</servlet-name>
+        <servlet-class>com.example.mckenna.musicdiscovery.backend.GetDailyServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetDailyServlet</servlet-name>
+        <url-pattern>/getdaily</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

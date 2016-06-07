@@ -1,7 +1,10 @@
 package com.example.mckenna.musicdiscovery.backend;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 import javax.jdo.annotations.PersistenceAware;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -51,5 +54,14 @@ public class TOPSong {
 
     public void setDay(String day){
         this.day = day != null ? day : "";
+    }
+
+    public static List<TOPSong> loadAll(PersistenceManager pm) {
+        Query query = pm.newQuery(TOPSong.class);
+        query.setOrdering("artist");
+
+        List<TOPSong> rv = (List<TOPSong>) query.execute();
+        rv.size(); // forces all records to load into memory
+        return rv;
     }
 }
