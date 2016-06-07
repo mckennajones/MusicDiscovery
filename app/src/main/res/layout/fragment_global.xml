@@ -13,7 +13,7 @@
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/artistCard"
+            android:id="@+id/globalArtistCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="40dp"
@@ -28,14 +28,14 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/artistCardTitle"
+                    android:id="@+id/globalArtistCardTitle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="20dp"
                     android:gravity="center_horizontal"
                     />
                 <TextView
-                    android:id="@+id/mpArtist"
+                    android:id="@+id/globalMpArtist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="30dp"
@@ -47,7 +47,7 @@
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/artistCard2"
+            android:id="@+id/globalSongCard"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,73 +63,25 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/artistCard2Title"
+                    android:id="@+id/globalSongCardTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:gravity="center_horizontal"/>
                 <TextView
-                    android:id="@+id/artistCard2Artist"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="30dp"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/songCard"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="40dp"
-            android:background="@android:color/darker_gray"
-            card_view:cardCornerRadius="4dp"
-            card_view:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/songCardTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:gravity="center_horizontal"/>
-                <TextView
-                    android:id="@+id/songCardSong"
+                    android:id="@+id/globalMpSong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30dp"
                     android:textStyle="bold"
                     android:gravity="center_horizontal" />
 
-                <TextView
-                    android:id="@+id/songCardArtist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:gravity="center_horizontal"/>
-
-                <TextView
-                    android:id="@+id/songCardCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:gravity="center_horizontal"/>
-
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/albumCard"
+            android:id="@+id/globalAlbumCard"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -145,23 +97,18 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/albumCardTitle"
+                    android:id="@+id/globalAlbumCardTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
                     android:gravity="center_horizontal"/>
                 <TextView
-                    android:id="@+id/albumCardAlbum"
+                    android:id="@+id/globalMpAlbum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="30dp"
                     android:textStyle="bold"
                     android:gravity="center_horizontal"/>
-                <ImageView
-                    android:id="@+id/albumCardCover"
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
-                    android:layout_gravity="center_horizontal"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>
     </LinearLayout>

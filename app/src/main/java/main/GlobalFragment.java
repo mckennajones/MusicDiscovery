@@ -16,6 +16,11 @@ import android.widget.TextView;
 
 import com.example.mckenna.musicdiscovery.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +42,7 @@ public class GlobalFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_stats, container, false);
+        rootView = inflater.inflate(R.layout.fragment_global, container, false);
 
         displayGlobalStats();
         // Inflate the layout for this fragment
@@ -55,6 +60,6 @@ public class GlobalFragment extends Fragment {
     }
 
     public void displayGlobalStats(){
-        new ServletGetTask().execute(getContext());
+        new ServletGetTask(rootView).execute(getContext());
     }
 }
