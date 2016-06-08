@@ -102,6 +102,6 @@ class ServletPostAsyncTask extends AsyncTask<Pair<Context, List<NameValuePair>>,
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
     }
 }

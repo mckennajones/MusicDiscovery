@@ -78,7 +78,7 @@ class ServletGetDaily extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, result, Toast.LENGTH_LONG).show();
 
         try {
             HashMap<String, String> map = new HashMap<String, String>();
