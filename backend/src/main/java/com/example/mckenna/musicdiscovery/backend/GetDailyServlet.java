@@ -36,7 +36,8 @@ public class GetDailyServlet extends HttpServlet{
             TOPSong todayTop = new TOPSong();
 
             for(TOPSong s : all_songs){
-                    todayTop = s;
+                    if(s.getDay().equals(date_string))
+                        todayTop = s;
             }
 
             HashMap<String, String> obj = new HashMap<String, String>();
